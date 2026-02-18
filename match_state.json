@@ -7,51 +7,48 @@
       "venue": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow",
       "innings": 3,
       "target": null,
-      "toss": " chose to ",
-      "status": "live"
+      "toss": "Data Not Available",
+      "status": "live",
+      "status_text": "Day 4: Stumps - Karnataka lead by 802 runs"
     },
     "score": {
       "runs": 299,
       "wickets": 6,
       "overs": 63.5,
       "run_rate": 4.68,
-      "required_rate": null
+      "required_rate": null,
+      "details": [
+        {
+          "r": 736,
+          "w": 10,
+          "o": 194.4,
+          "inning": "Karnataka Inning 1"
+        },
+        {
+          "r": 233,
+          "w": 10,
+          "o": 88.5,
+          "inning": "Uttarakhand Inning 1"
+        },
+        {
+          "r": 299,
+          "w": 6,
+          "o": 63.5,
+          "inning": "Karnataka Inning 2"
+        }
+      ]
     },
     "current_batter": {
-      "name": "Data Not Available",
+      "name": "Data Not Available (Free Tier Limit)",
       "runs": 0,
-      "balls": 0,
-      "strike_rate": 0.0,
-      "fours": 0,
-      "sixes": 0
-    },
-    "non_striker": {
-      "name": "Data Not Available",
-      "runs": 0,
-      "balls": 0,
-      "strike_rate": 0.0
+      "balls": 0
     },
     "current_bowler": {
-      "name": "Data Not Available",
+      "name": "Data Not Available (Free Tier Limit)",
       "overs": 0.0,
-      "runs_conceded": 0,
-      "wickets": 0,
-      "economy": 0.0,
-      "maidens": 0
-    },
-    "partnership": {
-      "runs": 0,
-      "balls": 0,
-      "batter1": null,
-      "batter2": null
-    },
-    "match_phase": "middle_overs",
-    "last_5_overs": {
-      "runs": 0,
       "wickets": 0
     },
-    "recent_wickets": [],
-    "fetched_at": "2026-02-18T20:45:26.722265"
+    "fetched_at": "2026-02-18T20:57:26.396073"
   },
   {
     "match": {
@@ -61,50 +58,35 @@
       "venue": "Narendra Modi Stadium, Ahmedabad",
       "innings": 1,
       "target": null,
-      "toss": " chose to ",
-      "status": "live"
+      "toss": "Data Not Available",
+      "status": "innings_break",
+      "status_text": "Innings Break"
     },
     "score": {
-      "runs": 165,
-      "wickets": 4,
-      "overs": 18.1,
-      "run_rate": 9.08,
-      "required_rate": null
+      "runs": 193,
+      "wickets": 6,
+      "overs": 20,
+      "run_rate": 9.65,
+      "required_rate": null,
+      "details": [
+        {
+          "r": 193,
+          "w": 6,
+          "o": 20,
+          "inning": "india Inning 1"
+        }
+      ]
     },
     "current_batter": {
-      "name": "Data Not Available",
+      "name": "Data Not Available (Free Tier Limit)",
       "runs": 0,
-      "balls": 0,
-      "strike_rate": 0.0,
-      "fours": 0,
-      "sixes": 0
-    },
-    "non_striker": {
-      "name": "Data Not Available",
-      "runs": 0,
-      "balls": 0,
-      "strike_rate": 0.0
+      "balls": 0
     },
     "current_bowler": {
-      "name": "Data Not Available",
+      "name": "Data Not Available (Free Tier Limit)",
       "overs": 0.0,
-      "runs_conceded": 0,
-      "wickets": 0,
-      "economy": 0.0,
-      "maidens": 0
-    },
-    "partnership": {
-      "runs": 0,
-      "balls": 0,
-      "batter1": null,
-      "batter2": null
-    },
-    "match_phase": "death_overs",
-    "last_5_overs": {
-      "runs": 0,
       "wickets": 0
     },
-    "recent_wickets": [],
-    "fetched_at": "2026-02-18T20:45:26.722344"
+    "fetched_at": "2026-02-18T20:57:26.396106"
   }
 ]

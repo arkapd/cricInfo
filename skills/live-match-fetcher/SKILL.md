@@ -53,17 +53,19 @@ A file called `match_state.json` saved in the project's working directory.
       "innings": "integer — 1 or 2 (or 3/4 for Tests)",
       "target": "integer or null — target score if 2nd innings, null if 1st",
       "toss": "string — who won toss and chose to bat/bowl",
-      "status": "string — 'live', 'innings_break', 'completed'"
+      "status": "string — 'live', 'innings_break', 'completed'",
+      "status_text": "string — Full text status (e.g. 'Day 4: Stumps...')"
     },
     "score": {
       "runs": "integer",
       "wickets": "integer",
       "overs": "float — e.g. 34.2",
       "run_rate": "float — current run rate",
-      "required_rate": "float or null — null if batting first"
+      "required_rate": "float or null — null if batting first",
+      "details": "array — list of inning objects"
     },
     "current_batter": {
-      "name": "string — full name",
+      "name": "string — full name (Note: May be 'Data Not Available' on free tier)",
       "runs": "integer — runs scored in this innings",
       "balls": "integer — balls faced",
       "strike_rate": "float",

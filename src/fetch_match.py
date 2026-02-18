@@ -98,7 +98,7 @@ def parse_cricapi_match(match_data, score_data=None):
     elif 'odi' in match_type:
         if overs < 10: phase = "powerplay"
         elif overs > 40: phase = "death_overs"
-    
+
     # Output Schema
     output = {
         "match": {
@@ -107,51 +107,29 @@ def parse_cricapi_match(match_data, score_data=None):
             "format": match_type.upper(),
             "venue": match_data.get('venue'),
             "innings": len(scores) if scores else 1,
-            "target": None, # complex to calculate without full scorecard
-            "toss": match_data.get('tossWinner', '') + " chose to " + match_data.get('tossChoice', ''),
-            "status": status_enum
+            "target": None, 
+            "toss": f"{match_data.get('tossWinner', 'Unknown')} chose to {match_data.get('tossChoice', 'unknown')}" if match_data.get('tossWinner') else "Data Not Available",
+            "status": status_enum,
+            "status_text": match_data.get('status', '') 
         },
         "score": {
             "runs": runs,
             "wickets": wickets,
             "overs": overs,
             "run_rate": run_rate,
-            "required_rate": None
+            "required_rate": None,
+            "details": scores # Include full score array
         },
         "current_batter": {
-            "name": "Data Not Available", # CricAPI list endpoint doesn't give ball-by-ball batter stats usually requires `match_info` endpoint
+            "name": "Data Not Available (Free Tier Limit)", 
             "runs": 0,
-            "balls": 0,
-            "strike_rate": 0.0,
-            "fours": 0,
-            "sixes": 0
-        },
-        "non_striker": {
-            "name": "Data Not Available",
-            "runs": 0,
-            "balls": 0,
-            "strike_rate": 0.0
+            "balls": 0
         },
         "current_bowler": {
-            "name": "Data Not Available",
+            "name": "Data Not Available (Free Tier Limit)",
             "overs": 0.0,
-            "runs_conceded": 0,
-            "wickets": 0,
-            "economy": 0.0,
-            "maidens": 0
-        },
-        "partnership": {
-            "runs": 0, 
-            "balls": 0,
-            "batter1": None,
-            "batter2": None
-        },
-        "match_phase": phase,
-        "last_5_overs": {
-            "runs": 0,
             "wickets": 0
         },
-        "recent_wickets": [],
         "fetched_at": datetime.datetime.now().isoformat()
     }
     
@@ -255,6 +233,10 @@ def main():
             else:
                  print("Both APIs failed.")
                  sys.exit(1)
+
+        # DEBUG: Dump raw response -> Removed for production
+        # with open("debug_raw.json", "w") as f:
+        #    json.dump(data_source, f, indent=2)
 
     # Process CricAPI data
     if not data_source or 'data' not in data_source:
