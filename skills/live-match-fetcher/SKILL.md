@@ -43,68 +43,69 @@ A file called `match_state.json` saved in the project's working directory.
 
 ### Required Output Schema
 
-```json
-{
-  "match": {
-    "id": "string — unique match identifier from the API",
-    "teams": "string — e.g. 'IND vs AUS'",
-    "format": "string — one of: T20, ODI, Test",
-    "venue": "string — ground name and city",
-    "innings": "integer — 1 or 2 (or 3/4 for Tests)",
-    "target": "integer or null — target score if 2nd innings, null if 1st",
-    "toss": "string — who won toss and chose to bat/bowl",
-    "status": "string — 'live', 'innings_break', 'completed'"
-  },
-  "score": {
-    "runs": "integer",
-    "wickets": "integer",
-    "overs": "float — e.g. 34.2",
-    "run_rate": "float — current run rate",
-    "required_rate": "float or null — null if batting first"
-  },
-  "current_batter": {
-    "name": "string — full name",
-    "runs": "integer — runs scored in this innings",
-    "balls": "integer — balls faced",
-    "strike_rate": "float",
-    "fours": "integer",
-    "sixes": "integer"
-  },
-  "non_striker": {
-    "name": "string",
-    "runs": "integer",
-    "balls": "integer",
-    "strike_rate": "float"
-  },
-  "current_bowler": {
-    "name": "string — full name",
-    "overs": "float — overs bowled in this spell/innings",
-    "runs_conceded": "integer",
-    "wickets": "integer",
-    "economy": "float",
-    "maidens": "integer"
-  },
-  "partnership": {
-    "runs": "integer",
-    "balls": "integer",
-    "batter1": "string",
-    "batter2": "string"
-  },
-  "match_phase": "string — one of: powerplay, middle_overs, death_overs, session_1, session_2, session_3 (for Tests)",
-  "last_5_overs": {
-    "runs": "integer",
-    "wickets": "integer"
-  },
-  "recent_wickets": [
-    {
-      "batter_name": "string",
+[
+  {
+    "match": {
+      "id": "string — unique match identifier from the API",
+      "teams": "string — e.g. 'IND vs AUS'",
+      "format": "string — one of: T20, ODI, Test",
+      "venue": "string — ground name and city",
+      "innings": "integer — 1 or 2 (or 3/4 for Tests)",
+      "target": "integer or null — target score if 2nd innings, null if 1st",
+      "toss": "string — who won toss and chose to bat/bowl",
+      "status": "string — 'live', 'innings_break', 'completed'"
+    },
+    "score": {
       "runs": "integer",
-      "bowler_name": "string",
-      "how_out": "string"
-    }
-  ],
-  "fetched_at": "string — ISO 8601 timestamp"
-}
+      "wickets": "integer",
+      "overs": "float — e.g. 34.2",
+      "run_rate": "float — current run rate",
+      "required_rate": "float or null — null if batting first"
+    },
+    "current_batter": {
+      "name": "string — full name",
+      "runs": "integer — runs scored in this innings",
+      "balls": "integer — balls faced",
+      "strike_rate": "float",
+      "fours": "integer",
+      "sixes": "integer"
+    },
+    "non_striker": {
+      "name": "string",
+      "runs": "integer",
+      "balls": "integer",
+      "strike_rate": "float"
+    },
+    "current_bowler": {
+      "name": "string — full name",
+      "overs": "float — overs bowled in this spell/innings",
+      "runs_conceded": "integer",
+      "wickets": "integer",
+      "economy": "float",
+      "maidens": "integer"
+    },
+    "partnership": {
+      "runs": "integer",
+      "balls": "integer",
+      "batter1": "string",
+      "batter2": "string"
+    },
+    "match_phase": "string — one of: powerplay, middle_overs, death_overs, session_1, session_2, session_3 (for Tests)",
+    "last_5_overs": {
+      "runs": "integer",
+      "wickets": "integer"
+    },
+    "recent_wickets": [
+      {
+        "batter_name": "string",
+        "runs": "integer",
+        "bowler_name": "string",
+        "how_out": "string"
+      }
+    ],
+    "fetched_at": "string — ISO 8601 timestamp"
+  }
+]
 Behavior Requirements
 1.	When the script starts, hit the CricAPI /currentMatches endpoint.
 2.	Filter for matches where matchStarted is true and matchEnded is false.

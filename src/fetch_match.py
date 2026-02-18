@@ -179,42 +179,48 @@ def run_cricbuzz_fallback():
         return None
         
     # TODO: Implement full parsing for Cricbuzz
-    # For now, just taking the first one to demonstrate structure
-    match = live_matches[0]
-    mid = match['id']
-    score = c.livescore(mid)
-    
-    # Construct a similar object (Simplified for this exercise as parsing cricbuzz is complex)
-    # This is a placeholder for actual robust cricbuzz parsing
-    output = {
-        "match": {
-            "id": mid,
-            "teams": f"{match['team1']['name']} vs {match['team2']['name']}",
-            "format": match['type'].upper(),
-            "venue": match['venue_name'],
-            "innings": 1,
-            "target": None,
-            "toss": match.get('toss', ''),
-            "status": "live"
-        },
-        "score": {
-            "runs": int(score['batting']['score'][0]['runs']),
-            "wickets": int(score['batting']['score'][0]['wickets']),
-            "overs": float(score['batting']['score'][0]['overs']),
-            "run_rate": 0.0,
-            "required_rate": None
-        },
-        # Fill generic data to respect schema
-        "current_batter": {"name": "N/A", "runs": 0, "balls": 0, "strike_rate": 0, "fours": 0, "sixes": 0},
-        "non_striker": {"name": "N/A", "runs": 0, "balls": 0, "strike_rate": 0},
-        "current_bowler": {"name": "N/A", "overs": 0, "runs_conceded": 0, "wickets": 0, "economy": 0, "maidens": 0},
-        "partnership": {"runs": 0, "balls": 0, "batter1": "", "batter2": ""},
-        "match_phase": "middle_overs",
-        "last_5_overs": {"runs": 0, "wickets": 0},
-        "recent_wickets": [],
-        "fetched_at": datetime.datetime.now().isoformat()
-    }
-    return output
+    outputs = []
+    for match in live_matches:
+        try:
+            mid = match['id']
+            score = c.livescore(mid)
+            
+            output = {
+                "match": {
+                    "id": mid,
+                    "teams": f"{match['team1']['name']} vs {match['team2']['name']}",
+                    "format": match['type'].upper(),
+                    "venue": match['venue_name'],
+                    "innings": 1,
+                    "target": None,
+                    "toss": match.get('toss', ''),
+                    "status": "live"
+                },
+                "score": {
+                    "runs": int(score['batting']['score'][0]['runs']),
+                    "wickets": int(score['batting']['score'][0]['wickets']),
+                    "overs": float(score['batting']['score'][0]['overs']),
+                    "run_rate": 0.0,
+                    "required_rate": None
+                },
+                "current_batter": {"name": "N/A", "runs": 0, "balls": 0, "strike_rate": 0, "fours": 0, "sixes": 0},
+                "non_striker": {"name": "N/A", "runs": 0, "balls": 0, "strike_rate": 0},
+                "current_bowler": {"name": "N/A", "overs": 0, "runs_conceded": 0, "wickets": 0, "economy": 0, "maidens": 0},
+                "partnership": {"runs": 0, "balls": 0, "batter1": "", "batter2": ""},
+                "match_phase": "middle_overs",
+                "last_5_overs": {"runs": 0, "wickets": 0},
+                "recent_wickets": [],
+                "fetched_at": datetime.datetime.now().isoformat()
+            }
+            outputs.append(output)
+        except Exception as e:
+            print(f"Error parsing match {match['id']}: {e}")
+            continue
+
+    if not outputs:
+        return None
+        
+    return outputs
 
 def main():
     parser = argparse.ArgumentParser(description="Fetch live cricket match data.")
@@ -239,11 +245,12 @@ def main():
         
         if not data_source or data_source.get('status') != 'success':
             print("CricAPI unavailable or returned error. Switching to Cricbuzz fallback...")
-            match_data = run_cricbuzz_fallback()
-            if match_data:
+            match_data_list = run_cricbuzz_fallback()
+            if match_data_list:
                  with open("match_state.json", "w") as f:
-                    json.dump(match_data, f, indent=2)
-                 print(f"✓ {match_data['match']['teams']} {match_data['score']['runs']}/{match_data['score']['wickets']} ({match_data['score']['overs']} ov)")
+                    json.dump(match_data_list, f, indent=2)
+                 for m in match_data_list:
+                     print(f"✓ {m['match']['teams']} {m['score']['runs']}/{m['score']['wickets']} ({m['score']['overs']} ov)")
                  return
             else:
                  print("Both APIs failed.")
@@ -260,34 +267,31 @@ def main():
         print("No live cricket matches right now.")
         sys.exit(0)
 
-    selected_match = None
-    if len(matches) == 1:
-        selected_match = matches[0]
-    elif args.match_id:
-        selected_match = next((m for m in matches if m['id'] == args.match_id), None)
-        if not selected_match:
+    # Filter matches if ID provided
+    if args.match_id:
+        matches = [m for m in matches if m['id'] == args.match_id]
+        if not matches:
             print(f"Match ID {args.match_id} not found in live matches.")
             sys.exit(1)
-    else:
-        print("Multiple live matches found:")
-        for i, m in enumerate(matches):
-            print(f"{i+1}. {m.get('name')} ({m.get('matchType', '').upper()})")
-        
-        # In a real interactive script we'd ask input, but for automation/simplicity we assume 1st or require arg if strictly automated
-        # For now, let's select the first one if not specified to avoid blocking
-        print("Auto-selecting first match (use --match-id to specify otherwise).")
-        selected_match = matches[0]
 
-    processed_data = parse_cricapi_match(selected_match)
+    processed_data_list = []
+    print(f"Found {len(matches)} live matches:")
     
+    for m in matches:
+        try:
+            processed_match = parse_cricapi_match(m)
+            processed_data_list.append(processed_match)
+            
+            # Summary
+            score = processed_match['score']
+            match = processed_match['match']
+            print(f"[OK] {match['teams']} {score['runs']}/{score['wickets']} ({score['overs']} ov)")
+        except Exception as e:
+            print(f"Error parsing match {m.get('name')}: {e}")
+
     # Save to file
     with open("match_state.json", "w") as f:
-        json.dump(processed_data, f, indent=2)
-
-    # Summary
-    score = processed_data['score']
-    match = processed_data['match']
-    print(f"[OK] {match['teams']} {score['runs']}/{score['wickets']} ({score['overs']} ov)")
+        json.dump(processed_data_list, f, indent=2)
 
 if __name__ == "__main__":
     main()
