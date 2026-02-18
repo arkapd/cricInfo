@@ -1,0 +1,51 @@
+{
+    "apikey": "test-key",
+    "data": [
+      {
+        "id": "match-123",
+        "name": "India vs Australia, 1st ODI",
+        "matchType": "odi",
+        "status": "India need 25 runs in 40 balls",
+        "venue": "Wankhede Stadium, Mumbai",
+        "date": "2023-11-25",
+        "dateTimeGMT": "2023-11-25T08:00:00",
+        "teams": ["India", "Australia"],
+        "score": [
+          {
+            "r": 280,
+            "w": 7,
+            "o": 50,
+            "inning": "Australia Inning 1"
+          },
+          {
+            "r": 256,
+            "w": 3,
+            "o": 43.2,
+            "inning": "India Inning 1"
+          }
+        ],
+        "tossChoice": "bat",
+        "tossWinner": "Australia",
+        "matchStarted": true,
+        "matchEnded": false
+      },
+      {
+        "id": "match-456",
+        "name": "England vs New Zealand, 2nd T20",
+        "matchType": "t20",
+        "status": "Match starts in 2 hours",
+        "venue": "Lord's, London",
+        "date": "2023-11-25",
+        "dateTimeGMT": "2023-11-25T14:00:00",
+        "teams": ["England", "New Zealand"],
+        "matchStarted": false,
+        "matchEnded": false
+      }
+    ],
+    "status": "success",
+    "info": {
+      "hitsToday": 1,
+      "hitsUsed": 1,
+      "hitsLimit": 100
+    }
+  }
